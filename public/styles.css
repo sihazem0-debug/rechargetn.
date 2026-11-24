@@ -1,0 +1,135 @@
+/* RechargeTN — réplique du style original : fond clair, cartes blanches,
+   prix couleur opérateur, bouton Recharger couleur opérateur */
+:root {
+  --bg: #F5F7FB; --surface: #FFFFFF; --surface-muted: #F1F5F9;
+  --text: #0F1E33; --muted: #64748B; --border: #E6EBF2;
+  --navy: #0F1E33; --green: #15803D; --red: #DC2626; --amber: #FACC15;
+  --tt: #2563EB; --ooredoo: #E30613; --orange: #FF7900;
+  --radius: 18px; --shadow: 0 2px 10px rgba(15, 30, 51, .06);
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+[dir="rtl"] body { font-family: "Segoe UI", Tahoma, Arial, sans-serif; }
+a { color: var(--tt); text-decoration: none; }
+img { max-width: 100%; }
+.container { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+.muted { color: var(--muted); } .small { font-size: .86rem; }
+.hidden { display: none !important; }
+button { cursor: pointer; font: inherit; }
+input, select, textarea { font: inherit; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px; background: #fff; color: var(--text); width: 100%; }
+label { display: block; font-weight: 600; margin: 12px 0 5px; }
+
+/* --- Header (original : logo R jaune, Boutique / Mon compte / Admin) --- */
+header.site { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid var(--border); }
+.nav { display: flex; align-items: center; gap: 16px; padding: 12px 16px; max-width: 1180px; margin: 0 auto; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.35rem; color: var(--text); }
+.brand img { width: 40px; height: 40px; border-radius: 10px; }
+.brand small { display: block; font-size: .72rem; font-weight: 600; color: var(--muted); line-height: 1; }
+.brand .tn { color: #FF8A00; }
+.topnav { display: flex; align-items: center; gap: 18px; margin-inline-start: auto; }
+.topnav button { border: 0; background: none; font-weight: 700; color: var(--text); padding: 8px 14px; border-radius: 999px; }
+.topnav button.active { background: var(--navy); color: #fff; }
+.lang-btn { border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 6px 12px; font-weight: 700; }
+
+/* --- Page Mon compte (original : carte blanche centrée, onglets, bouton jaune) ---
+   C'est une vraie page sur fond clair, PAS une fenêtre sur une page grise vide. */
+.account-hero { text-align: center; max-width: 640px; margin: 0 auto; padding-top: 26px; }
+.account-hero h2 { font-size: 1.9rem; margin: 0 0 8px; }
+.account-card { position: relative; max-width: 480px; margin: 20px auto 0; background: #fff; border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); padding: 22px; }
+.account-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; border: 0; background: var(--surface-muted); color: var(--text); font-weight: 700; }
+.auth-tabs { display: flex; background: var(--surface-muted); border-radius: 12px; padding: 4px; gap: 4px; margin: 6px 0 4px; }
+.auth-tabs button { flex: 1; border: 0; background: none; font-weight: 700; padding: 10px; border-radius: 9px; color: var(--muted); }
+.auth-tabs button.active { background: #fff; color: var(--text); box-shadow: 0 1px 4px rgba(15, 30, 51, .15); }
+.btn-yellow { background: var(--amber); color: #111827; }
+.btn-yellow:hover { filter: brightness(.93); }
+.account-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; max-width: 860px; margin: 22px auto 0; }
+.feature-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 18px; }
+.feature-card b { display: block; margin-bottom: 4px; }
+.feature-card p { margin: 0; }
+
+/* --- Barre filtres (capture) --- */
+.filterbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 18px 0 6px; }
+.pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.pill { border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 9px 18px; font-weight: 700; color: #334155; }
+.pill.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+.filterbar select { width: auto; border-radius: 12px; font-weight: 600; }
+.filterbar .search { flex: 1; min-width: 220px; border-radius: 12px; }
+
+/* --- Sections opérateurs --- */
+.op-section { margin-top: 26px; }
+.op-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.op-head .op-badge { width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: .95rem; }
+.op-head h2 { margin: 0; font-size: 1.25rem; }
+.op-head .count { color: var(--muted); font-weight: 600; }
+.c-tt { color: var(--tt); } .c-ooredoo { color: var(--ooredoo); } .c-orange { color: var(--orange); }
+.bg-tt { background: var(--tt); } .bg-ooredoo { background: var(--ooredoo); } .bg-orange { background: var(--orange); }
+
+/* --- Cartes forfait (capture) --- */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+.plan { position: relative; background: var(--surface); border: 1px solid #E8EDF3; border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px 18px; }
+.plan .pop { position: absolute; top: -11px; right: 16px; background: var(--amber); color: #111827; font-size: .75rem; font-weight: 800; padding: 4px 11px; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+.plan-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.plan .data { font-size: 1.9rem; font-weight: 800; line-height: 1.1; }
+.plan .plan-name { color: var(--muted); margin-top: 2px; }
+.plan .op-badge { width: 44px; height: 44px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; flex-shrink: 0; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.chips span { background: var(--surface-muted); border-radius: 999px; padding: 5px 12px; font-size: .85rem; font-weight: 600; color: #334155; }
+.plan .bonus { color: var(--green); font-size: .92rem; margin-top: 10px; min-height: 1.35em; }
+.plan hr { border: 0; border-top: 1px dashed #E2E8F0; margin: 12px 0; }
+.plan-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.plan .price { font-size: 1.6rem; font-weight: 800; }
+.btn-recharge { border: 0; border-radius: 10px; padding: 11px 24px; font-weight: 700; color: #fff; }
+.btn-recharge.tt { background: var(--tt); } .btn-recharge.ooredoo { background: var(--ooredoo); } .btn-recharge.orange { background: var(--orange); }
+.plan-sub { display: flex; gap: 14px; margin-top: 10px; }
+.plan-sub button { border: 0; background: none; color: var(--muted); font-size: .85rem; font-weight: 600; padding: 0; }
+.plan-sub button.on { color: var(--tt); }
+
+/* --- Boutons / cartes génériques --- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 12px; padding: 11px 18px; font-weight: 700; background: var(--tt); color: #fff; }
+.btn:hover { filter: brightness(.92); }
+.btn.accent { background: var(--orange); } .btn.soft { background: var(--surface-muted); color: var(--text); }
+.btn.green { background: var(--green); } .btn.danger { background: var(--red); }
+.btn.small { padding: 7px 12px; font-size: .88rem; border-radius: 9px; } .btn.block { width: 100%; }
+.card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-top: 14px; }
+.section { padding: 10px 0 30px; }
+.section h2 { margin: 0 0 6px; }
+.wallet-hero { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin: 14px 0; }
+.wallet-hero b { font-size: 1.5rem; }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+.tab { border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 8px 16px; font-weight: 700; }
+.tab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin: 14px 0; }
+.stat { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+.stat b { display: block; font-size: 1.3rem; } .stat span { color: var(--muted); font-size: .88rem; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th, td { text-align: start; padding: 9px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.status { padding: 3px 10px; border-radius: 999px; font-size: .82rem; font-weight: 700; background: var(--surface-muted); }
+.status.Completed, .status.approved { background: #DCFCE7; color: #166534; }
+.status.Pending, .status.pending { background: #FEF3C7; color: #92400E; }
+.status.Processing { background: #DBEAFE; color: #1E40AF; }
+.status.Cancelled, .status.rejected { background: #FEE2E2; color: #991B1B; }
+.status.Scheduled { background: #EDE9FE; color: #5B21B6; }
+.receipt div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px dashed var(--border); }
+footer { border-top: 1px solid var(--border); background: #fff; padding: 26px 0; margin-top: 20px; }
+footer .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+.wa-float { position: fixed; bottom: 18px; inset-inline-end: 18px; background: #25D366; color: #fff; font-weight: 700; padding: 11px 16px; border-radius: 999px; box-shadow: 0 6px 20px rgba(0,0,0,.2); z-index: 60; }
+
+/* --- Modales / toast --- */
+.modal-back { position: fixed; inset: 0; background: rgba(15,30,51,.5); display: none; align-items: flex-start; justify-content: center; padding: 40px 14px; z-index: 100; overflow-y: auto; }
+.modal-back.open { display: flex; }
+.modal { background: #fff; border-radius: 18px; padding: 22px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+.modal h2 { margin-top: 0; }
+.pay-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
+.pay { border: 1.5px solid var(--border); background: #fff; border-radius: 12px; padding: 10px; font-weight: 700; text-align: start; }
+.pay.active { border-color: var(--tt); background: #EFF6FF; }
+.pay small { display: block; font-weight: 500; color: var(--muted); }
+.pay-info { background: var(--surface-muted); border-radius: 10px; padding: 10px 12px; margin-top: 10px; font-size: .92rem; }
+#toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--navy); color: #fff; padding: 12px 18px; border-radius: 12px; font-weight: 600; opacity: 0; pointer-events: none; transition: .25s; z-index: 200; max-width: 92vw; text-align: center; }
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast.err { background: var(--red); }
+.old-price { text-decoration: line-through; color: var(--muted); font-weight: 600; margin-inline-end: 8px; }
+.total-row { display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 700; margin: 14px 0; }
+details { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; margin-top: 10px; }
+summary { font-weight: 700; cursor: pointer; }

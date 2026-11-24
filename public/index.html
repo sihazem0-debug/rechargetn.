@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RechargeTN — Forfaits mobiles • Tunisie</title>
+<meta name="description" content="RechargeTN : forfaits internet Tunisie Télécom, Ooredoo Flexi et Orange Navigui. Paiement D17, Flouci ou solde client.">
+<link rel="icon" href="/images/logo.svg">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="site">
+  <nav class="nav">
+    <a class="brand" href="#" onclick="showView('boutique');return false"><img src="/images/logo.svg" alt="RechargeTN"> <span>Recharge<span class="tn">TN</span><small>Forfaits mobiles • Tunisie</small></span></a>
+    <div class="topnav">
+      <button id="nav-boutique" class="active" onclick="showView('boutique')">Boutique</button>
+      <button id="nav-account" onclick="showAccount()">Mon compte</button>
+      <button id="nav-admin" onclick="goAdmin()">Admin</button>
+      <button class="btn small hidden" id="logout-btn" onclick="logout()">Déconnexion</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ BOUTIQUE (capture) ============ -->
+  <section id="view-boutique">
+    <div class="container">
+      <div class="filterbar">
+        <div class="pills" id="op-pills">
+          <button class="pill active" data-op="" onclick="filterOp('')">Tous</button>
+          <button class="pill" data-op="tt" onclick="filterOp('tt')">Tunisie Télécom</button>
+          <button class="pill" data-op="ooredoo" onclick="filterOp('ooredoo')">Ooredoo</button>
+          <button class="pill" data-op="orange" onclick="filterOp('orange')">Orange</button>
+        </div>
+        <select id="sort-select" onchange="loadPlans()">
+          <option value="price_asc" selected>Prix croissant</option>
+          <option value="price_desc">Prix décroissant</option>
+          <option value="data_desc">Plus de data</option>
+          <option value="popular">Plus vendus</option>
+        </select>
+        <input class="search" id="search-input" placeholder="Rechercher (ex : 25 Go, Flexi...)" oninput="loadPlans()">
+        <button class="btn soft small" onclick="openCompare()">⚖️ Comparer (<span id="compare-count">0</span>)</button>
+      </div>
+      <div id="plans-wrap"><p class="muted">Chargement des forfaits…</p></div>
+    </div>
+
+    <div class="container section">
+      <div class="card" style="max-width:640px">
+        <h2>🔎 Suivre ma commande</h2>
+        <p class="muted small">Entrez le code reçu après votre commande (ex. TR-XXXXXX).</p>
+        <div style="display:flex;gap:8px"><input id="track-code" placeholder="TR-XXXXXX" style="flex:1;text-transform:uppercase"><button class="btn" onclick="trackOrder()">Suivre</button></div>
+        <div id="track-result" style="margin-top:12px"></div>
+      </div>
+    </div>
+
+    <div class="container section" style="padding-top:0">
+      <div style="max-width:820px">
+        <h2>❓ Questions fréquentes</h2>
+        <details><summary>Comment payer avec D17 ou Flouci ?</summary><p>Choisissez un forfait, cliquez sur <b>Recharger</b>, entrez votre numéro, puis payez le montant exact sur notre numéro D17 / Flouci. Indiquez la référence de transaction : notre équipe vérifie et active votre recharge (statut <b>Pending → Processing → Completed</b>).</p></details>
+        <details><summary>Pourquoi créer un compte client ?</summary><p>Le compte vous donne un <b>solde</b> : vous rechargez votre solde une fois (D17 / Flouci), puis vous achetez vos forfaits en 1 clic, sans repayer à chaque fois. Vous suivez aussi toutes vos recharges.</p></details>
+        <details><summary>Pourquoi mon compte est-il « en attente » après inscription ?</summary><p>Pour éviter les faux comptes, chaque inscription est <b>validée manuellement par l'administrateur</b>. Vous pourrez vous connecter dès l'approbation — contactez-nous sur WhatsApp si c'est urgent.</p></details>
+        <details><summary>Combien de temps prend l'activation ?</summary><p>En général quelques minutes après confirmation du paiement, pendant les heures d'ouverture. Une recharge programmée s'active à la date choisie.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MON COMPTE (page complète, pas une fenêtre grise) ============ -->
+  <section class="section hidden" id="view-account">
+    <div class="container">
+      <!-- Non connecté : page Mon compte de l'original -->
+      <div id="account-auth">
+        <div class="account-hero">
+          <h2>Mon compte</h2>
+          <p class="muted">Connectez-vous pour voir votre solde, recharger votre portefeuille et suivre vos commandes. Pas encore de compte ? Créez-en un — il sera activé après validation de la boutique.</p>
+        </div>
+        <div class="account-card">
+          <button class="account-close" onclick="showView('boutique')" title="Fermer">✕</button>
+          <h2 style="margin-top:0">Se connecter</h2>
+          <div class="auth-tabs">
+            <button id="tab-login" class="active" onclick="setAuthTab('login')">Connexion</button>
+            <button id="tab-register" onclick="setAuthTab('register')">Nouveau compte</button>
+          </div>
+          <div id="form-login">
+            <label>Numéro de téléphone</label>
+            <input id="login-phone" type="tel" inputmode="numeric" placeholder="Ex : 98 123 456" maxlength="14">
+            <label>Mot de passe</label>
+            <input id="login-pass" type="password" placeholder="6 caractères minimum">
+            <div id="login-msg" class="small" style="margin-top:8px"></div>
+            <button class="btn btn-yellow block" onclick="submitLogin()" style="margin-top:14px">Se connecter</button>
+          </div>
+          <div id="form-register" class="hidden">
+            <label>Nom complet</label>
+            <input id="reg-name" placeholder="Ex. Ahmed Ben Ali">
+            <label>Numéro de téléphone</label>
+            <input id="reg-phone" type="tel" inputmode="numeric" placeholder="Ex : 98 123 456" maxlength="14">
+            <label>Mot de passe</label>
+            <input id="reg-pass" type="password" placeholder="6 caractères minimum">
+            <div id="register-msg" class="small" style="margin-top:8px"></div>
+            <button class="btn btn-yellow block" onclick="submitRegister()" style="margin-top:14px">Créer mon compte</button>
+            <p class="small muted" style="text-align:center;margin-top:10px">⚠️ Votre compte devra être approuvé par l'administrateur avant votre première connexion.</p>
+          </div>
+        </div>
+        <div class="account-features">
+          <div class="feature-card"><b>👛 Votre solde</b><p class="muted small">Rechargez votre solde une fois (D17 / Flouci), puis achetez vos forfaits en 1 clic.</p></div>
+          <div class="feature-card"><b>⚡ Recharge rapide</b><p class="muted small">Choisissez un forfait, entrez le numéro, payez — activation par notre équipe.</p></div>
+          <div class="feature-card"><b>📦 Suivi des commandes</b><p class="muted small">Suivez chaque recharge avec son code (TR-XXXXXX) et votre historique complet.</p></div>
+        </div>
+      </div>
+      <!-- Connecté : espace client -->
+      <div id="account-dash" class="hidden">
+        <h2>👤 Mon compte</h2>
+        <div class="wallet-hero">
+          <div><span class="muted">Solde disponible</span><br><b id="dash-balance">0 DT</b></div>
+          <div style="text-align:end"><div id="dash-user" class="muted"></div><button class="btn accent" onclick="openTopup()">＋ Recharger mon solde</button></div>
+        </div>
+        <div class="tabs">
+          <button class="tab active" onclick="dashTab('orders',this)">Mes recharges</button>
+          <button class="tab" onclick="dashTab('wallet',this)">Historique solde</button>
+          <button class="tab" onclick="dashTab('favs',this)">⭐ Favoris</button>
+          <button class="tab" onclick="dashTab('notifs',this)">🔔 Notifications</button>
+        </div>
+        <div class="card"><div class="table-wrap" id="dash-content">Chargement…</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ADMIN ============ -->
+  <section class="section hidden" id="view-admin">
+    <div class="container">
+      <h2>🛠️ Tableau de bord — Administrateur</h2>
+      <div class="stats" id="admin-stats"></div>
+      <div class="tabs" id="admin-tabs">
+        <button class="tab active" onclick="adminTab('pending',this)">⏳ Comptes en attente</button>
+        <button class="tab" onclick="adminTab('topups',this)">💰 Recharges solde à valider</button>
+        <button class="tab" onclick="adminTab('orders',this)">📦 Commandes</button>
+        <button class="tab" onclick="adminTab('clients',this)">👥 Clients &amp; soldes</button>
+        <button class="tab" onclick="adminTab('plans',this)">📱 Forfaits</button>
+        <button class="tab" onclick="adminTab('promos',this)">🏷️ Codes promo</button>
+        <button class="tab" onclick="adminTab('settings',this)">⚙️ Paramètres</button>
+      </div>
+      <div class="card"><div class="table-wrap" id="admin-content">Chargement…</div></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container cols">
+    <div><b>RechargeTN</b><p class="muted small">Forfaits mobiles en Tunisie — Tunisie Télécom, Ooredoo, Orange. Paiement D17, Flouci ou solde.</p></div>
+    <div><b>Liens</b><p><a href="#" onclick="showView('boutique');return false">Boutique</a><br><a href="#" onclick="showAccount();return false">Mon compte</a><br><a href="#" onclick="goAdmin();return false">Admin</a></p></div>
+    <div><b>Aide</b><p><a id="footer-wa" href="#" target="_blank">WhatsApp — Support</a><br><span class="small muted">Paiement manuel : confirmation par notre équipe.</span><br><button class="lang-btn" id="lang-btn" onclick="toggleLang()" style="margin-top:8px">عربي</button></p></div>
+  </div>
+  <div class="container small muted" style="margin-top:16px">© 2026 RechargeTN — Prix indicatifs en DT TTC, à confirmer sur les sites des opérateurs. RechargeTN n'est pas affilié à Tunisie Télécom, Ooredoo ou Orange.</div>
+</footer>
+
+<a class="wa-float hidden" id="wa-float" href="#" target="_blank">💬 WhatsApp</a>
+
+<!-- MODAL COMMANDE / RECHARGER -->
+<div class="modal-back" id="order-modal">
+  <div class="modal">
+    <h2 id="order-title">Recharger</h2>
+    <p class="muted small" id="order-summary"></p>
+    <label>Numéro à recharger (Tunisie)</label>
+    <input id="phone-input" type="tel" inputmode="numeric" placeholder="Ex. 55 123 456" maxlength="14">
+    <div class="small muted">Numéro tunisien : 8 chiffres, commence par 2, 5 ou 9.</div>
+    <label>Moyen de paiement</label>
+    <div class="pay-methods" id="pay-methods">
+      <button class="pay active" data-pay="d17" onclick="selectPay('d17')">D17<small>La Poste Tunisienne</small></button>
+      <button class="pay" data-pay="flouci" onclick="selectPay('flouci')">Flouci<small>Carte / app</small></button>
+      <button class="pay" data-pay="wallet" onclick="selectPay('wallet')">👛 Solde<small id="wallet-hint">Compte client</small></button>
+      <button class="pay" data-pay="manual" onclick="selectPay('manual')">🤝 Manuel<small>WhatsApp</small></button>
+    </div>
+    <div id="pay-info" class="pay-info"></div>
+    <div id="ref-wrap">
+      <label>Référence de paiement (obligatoire)</label>
+      <input id="ref-input" placeholder="Ex. numéro de transaction D17 / Flouci">
+    </div>
+    <label>Code promo <span class="muted">(optionnel)</span></label>
+    <div style="display:flex;gap:8px"><input id="promo-input" placeholder="Ex. BIENVENUE10" style="flex:1"><button class="btn soft" type="button" onclick="applyPromo()">Appliquer</button></div>
+    <div id="promo-msg" class="small" style="margin-top:4px"></div>
+    <label>📅 Recharge programmée <span class="muted">(optionnel)</span></label>
+    <input id="schedule-input" type="datetime-local">
+    <div class="total-row"><span>Total à payer</span><span><span id="old-price" class="old-price"></span><b id="total-price">—</b></span></div>
+    <button class="btn block" onclick="submitOrder()">✅ Confirmer la recharge</button>
+    <p class="small" style="text-align:center;margin-top:10px"><a href="#" onclick="closeOrder(event)">Fermer</a></p>
+  </div>
+</div>
+
+<!-- MODAL CONNEXION ADMIN (email — l'admin n'a pas de téléphone client) -->
+<div class="modal-back" id="admin-auth-modal">
+  <div class="modal">
+    <h2>Connexion administrateur</h2>
+    <p class="muted small">Réservé à l'administrateur de la boutique.</p>
+    <label>Email administrateur</label><input id="admin-email" type="email" placeholder="admin@rechargetn.tn">
+    <label>Mot de passe</label><input id="admin-pass" type="password" placeholder="••••••••">
+    <div id="admin-auth-msg" class="small" style="margin-top:8px"></div>
+    <button class="btn block" onclick="submitAdminLogin()" style="margin-top:12px">Se connecter</button>
+    <p class="small" style="text-align:center;margin-top:10px"><a href="#" onclick="closeAdminAuth(event)">Fermer</a></p>
+  </div>
+</div>
+
+<!-- MODAL RECHARGE SOLDE -->
+<div class="modal-back" id="topup-modal">
+  <div class="modal">
+    <h2>＋ Recharger mon solde</h2>
+    <p class="muted small">Payez par D17 / Flouci, puis envoyez la demande : l'administrateur confirme et votre solde est crédité.</p>
+    <div id="topup-info" class="pay-info"></div>
+    <label>Montant (DT)</label><input id="topup-amount" type="number" min="5" step="0.5" placeholder="Ex. 50">
+    <label>Moyen de paiement</label>
+    <select id="topup-pay"><option value="d17">D17</option><option value="flouci">Flouci</option><option value="manual">Manuel (WhatsApp)</option></select>
+    <label>Référence de paiement</label><input id="topup-ref" placeholder="Numéro de transaction">
+    <div id="topup-msg" class="small" style="margin-top:8px"></div>
+    <button class="btn block" onclick="submitTopup()" style="margin-top:12px">Envoyer la demande</button>
+    <p class="small" style="text-align:center;margin-top:10px"><a href="#" onclick="closeTopup(event)">Fermer</a></p>
+  </div>
+</div>
+
+<!-- MODAL REÇU / COMPARATEUR -->
+<div class="modal-back" id="generic-modal">
+  <div class="modal" style="max-width:640px">
+    <h2 id="generic-title"></h2>
+    <div id="generic-body"></div>
+    <p style="text-align:center;margin-top:14px"><a href="#" onclick="closeGeneric(event)">Fermer</a></p>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="/js/app.js"></script>
+</body>
+</html>
